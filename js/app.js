@@ -1,4 +1,4 @@
-define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax'], function(THREE, Controls, stats, SpriteControl, tweenMax) {
+define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], function(THREE, Controls, stats, SpriteControl, tweenMax,Star) {
 	let camera;
 	let scene;
 	let renderer;
@@ -14,13 +14,11 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax'], function(THR
 	let diandianArr, xingxingArr, xingqiuArr, yuanquanArr;
 	let isStart = true;
 	let colorArr = [0xf9dce0, 0xf5957d, 0x17ffa7];
-	let e;
 
 	class App {
 		constructor() {
 			this.init();
 			this.update();
-
 		}
 
 		init() {
@@ -54,46 +52,51 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax'], function(THR
 			xingxingMaterials = this.createMaterials(xingxingMaps);
 			xingqiumaterials = this.createMaterials(xingqiuMaps);
 			//创建contros
-			let params = {
-				width: width / 2,
-				height: height / 2,
-				depth: 100,
-				maxSpeed: 1,
-				isAvoidWalls: true
-			}
-			let xingxingParams = {
-				width: width / 2,
-				height: height / 2,
-				depth: 100,
-				maxSpeed: 1,
-				isAvoidWalls: true
-			}
-
-			yuanquanControls = this.createControls(100, params, 'yuanquan')
-			diandianControls = this.createControls(200, params, 'diandian');
-			xingxingControls = this.createControls(400, xingxingParams, 'xingxing');
-			xingqiuControls = this.createControls(200, params, 'xingqiu');
+//			let params = {
+//				width: width / 2,
+//				height: height / 2,
+//				depth: 100,
+//				maxSpeed: 1,
+//				isAvoidWalls: true
+//			}
+//			let xingxingParams = {
+//				width: width / 2,
+//				height: height / 2,
+//				depth: 100,
+//				maxSpeed: 1,
+//				isAvoidWalls: true
+//			}
+//
+//			yuanquanControls = this.createControls(100, params, 'yuanquan')
+//			diandianControls = this.createControls(200, params, 'diandian');
+//			xingxingControls = this.createControls(400, xingxingParams, 'xingxing');
+//			xingqiuControls = this.createControls(200, params, 'xingqiu');
 			//创建groups
-			yuanquanGroup = this.createMeshGroup(yuanquanControls, 1);
-			diandianGroup = this.createSpriteGroup(diandianMaterials, diandianControls, size);
-			xingxingGroup = this.createSpriteGroup(xingxingMaterials, xingxingControls, size);
-			xingqiuGroup = this.createSpriteGroup(xingqiumaterials, xingqiuControls, size, [3, 6, 7, 8, 9, 14, 17], 2);
-			//添加到场景
-			scene.add(diandianGroup);
-			scene.add(xingxingGroup);
-			scene.add(xingqiuGroup);
-			scene.add(yuanquanGroup);
+//			yuanquanGroup = this.createMeshGroup(yuanquanControls, 1);
+//			diandianGroup = this.createSpriteGroup(diandianMaterials, diandianControls, size);
+//			xingxingGroup = this.createSpriteGroup(xingxingMaterials, xingxingControls, size);
+//			xingqiuGroup = this.createSpriteGroup(xingqiumaterials, xingqiuControls, size, [3, 6, 7, 8, 9, 14, 17], 2);
+			
+//			yuanquanGroup = this.createMeshGroup(yuanquanControls, 1);
+//			diandianGroup = this.createSpriteGroup2(diandianMaterials, 200, size);
+//			xingxingGroup = this.createSpriteGroup2(xingxingMaterials, 400, size);
+//			xingqiuGroup = this.createSpriteGroup2(xingqiumaterials, 200, size, [3, 6, 7, 8, 9, 14, 17], 2);
+//			//添加到场景
+//			scene.add(diandianGroup);
+//			scene.add(xingxingGroup);
+//			scene.add(xingqiuGroup);
+//			scene.add(yuanquanGroup);
 
-			diandianArr = diandianGroup.children;
-			xingxingArr = xingxingGroup.children;
-			xingqiuArr = xingqiuGroup.children;
-			yuanquanArr = yuanquanGroup.children;
+			diandianArr = this.createSpriteGroup2("diandian",diandianMaterials, 100, size);
+			xingxingArr	= this.createSpriteGroup2("xingxing",xingxingMaterials, 300, size);
+			xingqiuArr	= this.createSpriteGroup2("xingqiu",xingqiumaterials, 100, size, [3, 6, 7, 8, 9, 14, 17], 2);
+			yuanquanArr = this.createMeshGroup2(50);
 			//			console.log(yuanquanArr.length)
 
 			document.body.appendChild(renderer.domElement);
 			window.addEventListener('resize', this.resize, false);
 			renderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
-
+			renderer.render(scene,camera);
 //			e = {
 //				clientX: this.randomInRange(0, width),
 //				clientY: this.randomInRange(0, height)
@@ -106,6 +109,28 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax'], function(THR
 //				}
 //			}, this.randomInRange(10000, 20000));
 			
+		}
+
+		createMeshGroup2(count) {
+			let arr = [];
+			for(let i = 0; i < count; i++) {
+				let size = this.randomInRange(5, 12)
+				let mesh = new THREE.Mesh(new THREE.CylinderGeometry(size, size, 2, 32), new THREE.MeshBasicMaterial({
+					opacity: 1,
+					transparent: true,
+					color: colorArr[this.randomInRange(0, 2)]
+				}));
+				mesh.position.x = Math.random() * width - width / 2;
+				mesh.position.y = Math.random() * height - height / 2;
+				mesh.position.z = Math.random() * 100 - 100;
+				let star = new Star({
+					mesh:mesh,
+					name:"yuanquan"
+				});
+				arr.push(star);
+				scene.add(mesh);
+			}
+			return arr;
 		}
 
 		createMeshGroup(controlArr, spriteSize) {
@@ -143,6 +168,30 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax'], function(THR
 				group.add(sprite);
 			}
 			return group;
+		}
+		
+		createSpriteGroup2(name,materialArr, count,spriteSize, biggerArr, biggerScale) {
+			let arr = [];
+			for(let i = 0; i < count; i++) {
+				let pos = Math.floor(Math.random() * materialArr.length)
+				let sprite = new THREE.Sprite(materialArr[pos]);
+				sprite.position.x = Math.random() * width - width / 2;
+				sprite.position.y = Math.random() * height - height / 2;
+				sprite.position.z = Math.random() * 100 - 100;
+				if(biggerArr && biggerArr.indexOf(pos) > 0) {
+					sprite.scale.set(spriteSize * biggerScale, spriteSize * biggerScale, spriteSize * biggerScale);
+				} else {
+					sprite.scale.set(spriteSize, spriteSize, spriteSize);
+				}
+				
+				let star = new Star({
+					mesh:sprite,
+					name:name
+				})
+				arr.push(star);
+				scene.add(sprite);
+			}
+			return arr;
 		}
 
 		/**
@@ -208,29 +257,29 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax'], function(THR
 		}
 
 		onMouseMove(e) {
-			let x = e.clientX;
-			let y = e.clientY;
-			
-//			console.log(e.clientX);
-//			console.log(e.clientY);
-			let vector = new THREE.Vector3(x - width / 2, -y + height / 2, 0);
-
-			for(let i = 0; i < xingqiuControls.length; i++) {
-				vector.z = xingqiuControls[i].position.z;
-				xingqiuControls[i].repulse(vector);
-			}
-			for(let i = 0; i < xingxingControls.length; i++) {
-				vector.z = xingxingControls[i].position.z;
-				xingxingControls[i].repulse(vector);
-			}
-			for(let i = 0; i < diandianControls.length; i++) {
-				vector.z = diandianControls[i].position.z;
-				diandianControls[i].repulse(vector);
-			}
-			for(let i = 0; i < yuanquanControls.length; i++) {
-				vector.z = yuanquanControls[i].position.z;
-				yuanquanControls[i].repulse(vector);
-			}
+//			let x = e.clientX;
+//			let y = e.clientY;
+//			
+////			console.log(e.clientX);
+////			console.log(e.clientY);
+//			let vector = new THREE.Vector3(x - width / 2, -y + height / 2, 0);
+//
+//			for(let i = 0; i < xingqiuControls.length; i++) {
+//				vector.z = xingqiuControls[i].position.z;
+//				xingqiuControls[i].repulse(vector);
+//			}
+//			for(let i = 0; i < xingxingControls.length; i++) {
+//				vector.z = xingxingControls[i].position.z;
+//				xingxingControls[i].repulse(vector);
+//			}
+//			for(let i = 0; i < diandianControls.length; i++) {
+//				vector.z = diandianControls[i].position.z;
+//				diandianControls[i].repulse(vector);
+//			}
+//			for(let i = 0; i < yuanquanControls.length; i++) {
+//				vector.z = yuanquanControls[i].position.z;
+//				yuanquanControls[i].repulse(vector);
+//			}
 		}
 
 		initStats() {
@@ -353,12 +402,12 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax'], function(THR
 		update() {
 
 			stats.update();
-//			controls.update();
+			controls.update();
 			let t = Date.now() / 1000;
 			//			me.xingxingAnimat(t);
 			//			diandianGroup.rotation.x += 0.01;
 			//			xingqiuGroup.rotation.y += 0.01;
-			me.spriteAnimat(t);
+//			me.spriteAnimat(t);
 			renderer.render(scene, camera);
 			window.requestAnimationFrame(me.update);
 		}
