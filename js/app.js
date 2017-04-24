@@ -7,14 +7,15 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 	let me;
 	let controls;
 	let size = 20;
-	let diandianMaps, xingxingMaps, xingqiuMaps, yuanquanMaps;
-	let diandianMaterials, xingxingMaterials, xingqiumaterials, yuanquanMaterials;
+	let diandianMaps, xingxingMaps, xingqiuMaps, yuanquanMaps,diandian2Maps;
+	let diandianMaterials, xingxingMaterials, xingqiumaterials, yuanquanMaterials,diandian2Materials;
 	let diandianGroup, xingxingGroup, xingqiuGroup, yuanquanGroup;
 	let diandianControls, xingxingControls, xingqiuControls, yuanquanControls;
-	let diandianArr, xingxingArr, xingqiuArr, yuanquanArr;
+	let diandianArr, xingxingArr, xingqiuArr, yuanquanArr,diandian2Arr;
+	let diandian2_0Arr,diandian2_1Arr,diandian2_2Arr,diandian2_3Arr,diandian2_4Arr,diandian2_5Arr;
 	let isStart = true;
 	let colorArr = [0xf9dce0, 0xf5957d, 0x17ffa7];
-
+	let sxGrop0;
 	class App {
 		constructor() {
 			this.init();
@@ -28,8 +29,8 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			height = window.innerHeight;
 			scene = new THREE.Scene();
 
-			camera = new THREE.PerspectiveCamera(45, width / height, 1, 1500)
-			camera.position.z = 800;
+			camera = new THREE.PerspectiveCamera(45, width / height, 1, 3500)
+			camera.position.z = 900;
 			camera.lookAt(scene.position);
 			scene.add(camera);
 
@@ -43,14 +44,22 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			textureLoader = new THREE.TextureLoader();
 			//加载mapping
 			//			yuanquanMaps = this.createMappings('yuanquan',12);
-			diandianMaps = this.createMappings('diandian', 42);
+			diandian2Maps = this.createMappings('diandian2',7)
+			diandianMaps = this.createMappings('diandian', 40);
 			xingxingMaps = this.createMappings('xingxing', 21);
-			xingqiuMaps = this.createMappings('xingqiu', 18);
+			xingqiuMaps = this.createMappings('xingqiu', 12);
 			//创建materials
 			//			yuanquanMaterials = this.createMaterials(yuanquanMaps);
-			diandianMaterials = this.createMaterials(diandianMaps);
-			xingxingMaterials = this.createMaterials(xingxingMaps);
-			xingqiumaterials = this.createMaterials(xingqiuMaps);
+			let diandian2_0ArrMats = this.createMaterials(diandian2Maps,20);
+			let diandian2_1ArrMats = this.createMaterials(diandian2Maps,20);
+			let diandian2_2ArrMats = this.createMaterials(diandian2Maps,20);
+			let diandian2_3ArrMats = this.createMaterials(diandian2Maps,20);
+			let diandian2_4ArrMats = this.createMaterials(diandian2Maps,20);
+			let diandian2_5ArrMats = this.createMaterials(diandian2Maps,20);
+			
+			diandianMaterials = this.createMaterials(diandianMaps,50);
+			xingxingMaterials = this.createMaterials(xingxingMaps,200);
+			xingqiumaterials = this.createMaterials(xingqiuMaps,200);
 			//创建contros
 //			let params = {
 //				width: width / 2,
@@ -86,10 +95,17 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 //			scene.add(xingxingGroup);
 //			scene.add(xingqiuGroup);
 //			scene.add(yuanquanGroup);
-
-			diandianArr = this.createSpriteGroup2("diandian",diandianMaterials, 100, size);
-			xingxingArr	= this.createSpriteGroup2("xingxing",xingxingMaterials, 300, size);
-			xingqiuArr	= this.createSpriteGroup2("xingqiu",xingqiumaterials, 100, size, [3, 6, 7, 8, 9, 14, 17], 2);
+			diandian2_0Arr = this.createSpriteGroup2("diandian2",diandian2_0ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
+			diandian2_1Arr = this.createSpriteGroup2("diandian2",diandian2_1ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
+			diandian2_2Arr = this.createSpriteGroup2("diandian2",diandian2_2ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
+			diandian2_3Arr = this.createSpriteGroup2("diandian2",diandian2_3ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
+			diandian2_4Arr = this.createSpriteGroup2("diandian2",diandian2_4ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
+			diandian2_5Arr = this.createSpriteGroup2("diandian2",diandian2_5ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
+			
+			diandian2Arr = [diandian2_0Arr,diandian2_1Arr,diandian2_2Arr,diandian2_3Arr,diandian2_4Arr,diandian2_5Arr];
+			diandianArr = this.createSpriteGroup2("diandian",diandianMaterials, size);
+			xingxingArr	= this.createSpriteGroup2("xingxing",xingxingMaterials, size);
+			xingqiuArr	= this.createSpriteGroup2("xingqiu",xingqiumaterials, size, [0,2, 4], 2);
 			yuanquanArr = this.createMeshGroup2(50);
 			//			console.log(yuanquanArr.length)
 
@@ -99,7 +115,7 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			renderer.render(scene,camera);
 //			e = {
 //				clientX: this.randomInRange(0, width),
-//				clientY: this.randomInRange(0, height)
+//				clientY: this.randomInRange(0, height/2)
 //			}
 //			setInterval(function() {
 //				isStart = !isStart;
@@ -108,9 +124,38 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 //					clientY: me.randomInRange(0, height)
 //				}
 //			}, this.randomInRange(10000, 20000));
+			this.diandian2Move();
 			
+			sxGrop0 = this.shuangxingSystem();
+			let sxGrop1 = this.shuangxingSystem();
+			TweenMax.to(sxGrop0.rotation,1,{
+//				x:Math.PI*2,
+				y:Math.PI*2,
+//				z:Math.PI*2,
+				repeat:-1,
+				yoyo:true
+			})
 		}
-
+		
+		shuangxingSystem(){
+			let temp = this.randomInRange(0,xingqiuArr.length-2);
+			let sxGroup = new THREE.Group();
+			for(let i=0; i<2; i++){
+				sxGroup.add(xingqiuArr[temp+i].mesh);
+			}
+			return sxGroup;
+		}
+		diandian2Move(){
+			let temp = ['bomb1','bomb2'];
+			for(let i=0; i<diandian2Arr.length; i++){
+				let delay = this.randomInRange(2,20);
+				let temp2 = Math.round(Math.random());
+				diandian2Arr[i].forEach(function(d){
+					d.move(temp[temp2],delay);
+//					d.move(temp[Math.round(Math.random())],delay);
+				})
+			}
+		}
 		createMeshGroup2(count) {
 			let arr = [];
 			for(let i = 0; i < count; i++) {
@@ -122,7 +167,7 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 				}));
 				mesh.position.x = Math.random() * width - width / 2;
 				mesh.position.y = Math.random() * height - height / 2;
-				mesh.position.z = Math.random() * 100 - 100;
+				mesh.position.z = 0;
 				let star = new Star({
 					mesh:mesh,
 					name:"yuanquan"
@@ -170,19 +215,34 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			return group;
 		}
 		
-		createSpriteGroup2(name,materialArr, count,spriteSize, biggerArr, biggerScale) {
+		createSpriteGroup2(name,materialArr, spriteSize, biggerArr, biggerScale,x,y) {
 			let arr = [];
-			for(let i = 0; i < count; i++) {
-				let pos = Math.floor(Math.random() * materialArr.length)
-				let sprite = new THREE.Sprite(materialArr[pos]);
-				sprite.position.x = Math.random() * width - width / 2;
-				sprite.position.y = Math.random() * height - height / 2;
-				sprite.position.z = Math.random() * 100 - 100;
-				if(biggerArr && biggerArr.indexOf(pos) > 0) {
-					sprite.scale.set(spriteSize * biggerScale, spriteSize * biggerScale, spriteSize * biggerScale);
-				} else {
+			
+			for(let i = 0; i < materialArr.length; i++) {
+				let sprite = new THREE.Sprite(materialArr[i]);
+				
+				if(name === "diandian2"){
+					sprite.position.x = this.randomInRange(x-100,x+100);
+					sprite.position.y = this.randomInRange(y-100,y+100);
+					sprite.position.z = 0;
+				}else{
+					sprite.position.x = Math.random() * width - width / 2;
+					sprite.position.y = Math.random() * height - height / 2;
+					sprite.position.z = 0;
+				}
+				
+				
+				if(name === "xingqiu"){
+					let temp = Math.random()+0.8;
+					sprite.scale.set(spriteSize * temp, spriteSize * temp, spriteSize * temp);
+				}else{
 					sprite.scale.set(spriteSize, spriteSize, spriteSize);
 				}
+				
+//				if(biggerArr && biggerArr.indexOf(pos) > 0) {
+//					sprite.scale.set(spriteSize * biggerScale, spriteSize * biggerScale, spriteSize * biggerScale);
+//				} else {
+//				}
 				
 				let star = new Star({
 					mesh:sprite,
@@ -237,14 +297,15 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 		 * @param {Array} mapArr mapping数组
 		 * @return {Array} material数组
 		 */
-		createMaterials(mapArr) {
+		createMaterials(mapArr,count) {
 			let arr = [];
-
-			for(let i = 0; i < mapArr.length; i++) {
+			
+			for(let i = 0; i < count; i++) {
+				let pos = Math.floor(Math.random() * mapArr.length)
 				let spriteMaterial = new THREE.SpriteMaterial({
 					opacity: 1.0,
 					transparent: true,
-					map: mapArr[i]
+					map: mapArr[pos]
 				});
 				arr.push(spriteMaterial);
 			};
@@ -400,7 +461,7 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 		}
 
 		update() {
-
+			sxGrop0.position.z = 100;
 			stats.update();
 			controls.update();
 			let t = Date.now() / 1000;
