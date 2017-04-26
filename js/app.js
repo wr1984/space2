@@ -1,4 +1,4 @@
-define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], function(THREE, Controls, stats, SpriteControl, tweenMax,Star) {
+define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], function(THREE, Controls, stats, SpriteControl, tm,Star) {
 	let camera;
 	let scene;
 	let renderer;
@@ -15,7 +15,15 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 	let diandian2_0Arr,diandian2_1Arr,diandian2_2Arr,diandian2_3Arr,diandian2_4Arr,diandian2_5Arr;
 	let isStart = true;
 	let colorArr = [0xf9dce0, 0xf5957d, 0x17ffa7];
-	let sxGrop0;
+	let easeArr = [SlowMo.ease.config(0.5, 0.4, false),
+//					Bounce.easeInOut,
+					Power4.easeInOut,
+					 Back.easeInOut.config(4),
+					 Power0.easeNone,
+					 Expo.easeInOut,
+//					 Elastic.easeInOut.config(2.5, 0.1)
+				];
+//	let sxGrop0;
 	class App {
 		constructor() {
 			this.init();
@@ -29,7 +37,7 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			height = window.innerHeight;
 			scene = new THREE.Scene();
 
-			camera = new THREE.PerspectiveCamera(45, width / height, 1, 3500)
+			camera = new THREE.PerspectiveCamera(45, width / height, 1, 1500)
 			camera.position.z = 900;
 			camera.lookAt(scene.position);
 			scene.add(camera);
@@ -47,19 +55,19 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			diandian2Maps = this.createMappings('diandian2',7)
 			diandianMaps = this.createMappings('diandian', 40);
 			xingxingMaps = this.createMappings('xingxing', 21);
-			xingqiuMaps = this.createMappings('xingqiu', 12);
+			xingqiuMaps = this.createMappings('xingqiu', 17);
 			//创建materials
 			//			yuanquanMaterials = this.createMaterials(yuanquanMaps);
-			let diandian2_0ArrMats = this.createMaterials(diandian2Maps,20);
-			let diandian2_1ArrMats = this.createMaterials(diandian2Maps,20);
-			let diandian2_2ArrMats = this.createMaterials(diandian2Maps,20);
-			let diandian2_3ArrMats = this.createMaterials(diandian2Maps,20);
-			let diandian2_4ArrMats = this.createMaterials(diandian2Maps,20);
-			let diandian2_5ArrMats = this.createMaterials(diandian2Maps,20);
+			let diandian2_0ArrMats = this.createMaterials(diandian2Maps,30);
+			let diandian2_1ArrMats = this.createMaterials(diandian2Maps,30);
+			let diandian2_2ArrMats = this.createMaterials(diandian2Maps,30);
+			let diandian2_3ArrMats = this.createMaterials(diandian2Maps,30);
+			let diandian2_4ArrMats = this.createMaterials(diandian2Maps,30);
+			let diandian2_5ArrMats = this.createMaterials(diandian2Maps,30);
 			
-			diandianMaterials = this.createMaterials(diandianMaps,50);
+			diandianMaterials = this.createMaterials(diandianMaps,100);
 			xingxingMaterials = this.createMaterials(xingxingMaps,200);
-			xingqiumaterials = this.createMaterials(xingqiuMaps,200);
+			xingqiumaterials = this.createMaterials(xingqiuMaps,50);
 			//创建contros
 //			let params = {
 //				width: width / 2,
@@ -125,24 +133,76 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 //				}
 //			}, this.randomInRange(10000, 20000));
 			this.diandian2Move();
+			this.move(xingxingArr);
+			this.move(xingqiuArr);
+			this.move(diandianArr);
+			this.move(yuanquanArr);
 			
-			sxGrop0 = this.shuangxingSystem();
-			let sxGrop1 = this.shuangxingSystem();
-			TweenMax.to(sxGrop0.rotation,1,{
-//				x:Math.PI*2,
-				y:Math.PI*2,
-//				z:Math.PI*2,
-				repeat:-1,
-				yoyo:true
-			})
+//			let sxGrop0 = this.shuangxingSystem();
+//			this.sxDistance(sxGrop0);
+
+			this.createSxsys(100);
+//			let sxGrop1 = this.shuangxingSystem();
+//			TweenMax.set(sxGrop0.position,{z:-100})
+
+		}
+		move(arr){
+				for(let i=0,len=arr.length; i<len; i++){
+					arr[i].move();
+				}
 		}
 		
-		shuangxingSystem(){
-			let temp = this.randomInRange(0,xingqiuArr.length-2);
-			let sxGroup = new THREE.Group();
-			for(let i=0; i<2; i++){
-				sxGroup.add(xingqiuArr[temp+i].mesh);
+		createSxsys(count){
+			let temp = [-1,1];
+			for(let i=0; i<count; i++){
+				let tm = new TimelineMax({repeat:-1, yoyo:true, repeatDelay:1});
+				let sxGroup = this.shuangxingSystem();
+				this.sxDistance(sxGroup);
+				tm.to(sxGroup.rotation,this.randomInRange(5,20),{
+//					x:Math.PI*2*6*temp[Math.round(Math.random())],
+					z:Math.PI*2*temp[Math.round(Math.random())],
+//					y:Math.PI*2*6*temp[Math.round(Math.random())],
+					ease: Power0.easeNone
+//					ease: easeArr[this.randomInRange(0,4)]
+				});
+				
+//				if(Math.random()>0.5){
+//					tm.to(sxGroup.rotation,this.randomInRange(150,300),{
+////						z:Math.PI*2*6*temp[Math.round(Math.random())],
+//						y:Math.PI*2*7*temp[Math.round(Math.random())],
+//						ease: Power0.easeNone
+////						ease: easeArr[this.randomInRange(0,4)]
+//					},"-=200");
+//				}
 			}
+		}
+		sxDistance(sxGrop){
+			let mesh1 = sxGrop.children[0];
+			let mesh2 = sxGrop.children[1];
+			TweenMax.to(mesh1.position,this.randomInRange(5,30),{
+				x:mesh2.position.x,
+				y:mesh2.position.y,
+				repeat:-1,
+				yoyo:true,
+				ease: easeArr[this.randomInRange(0,4)]
+			});
+			TweenMax.to(mesh2.position,this.randomInRange(5,30),{
+				x:mesh1.position.x,
+				y:mesh1.position.y,
+				repeat:-1,
+				yoyo:true,
+				ease: easeArr[this.randomInRange(0,4)]
+			})
+		}
+		shuangxingSystem(){
+			let temp = this.randomInRange(0,xingqiumaterials.length-2);
+			let sxGroup = new THREE.Group();
+			let sxMatArr = [xingqiumaterials[temp],xingqiumaterials[temp+1]];
+			let sxSpriteArr = this.createSpriteGroup2('sx',sxMatArr,size);
+			for(let i=0; i<2; i++){
+				sxGroup.add(sxSpriteArr[i].mesh);
+			}
+			scene.add(sxGroup);
 			return sxGroup;
 		}
 		diandian2Move(){
@@ -249,7 +309,9 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 					name:name
 				})
 				arr.push(star);
-				scene.add(sprite);
+				if(name !== "sx"){
+					scene.add(sprite);
+				}
 			}
 			return arr;
 		}
@@ -459,9 +521,15 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 
 			}
 		}
-
+		xqAnimat(){
+			for(let i= 0, len = xingqiuArr.length; i<len; i++){
+				xingqiuArr[i].flock(xingqiuArr);
+			}
+		}
 		update() {
-			sxGrop0.position.z = 100;
+			
+//			me.xqAnimat();
+			
 			stats.update();
 			controls.update();
 			let t = Date.now() / 1000;
