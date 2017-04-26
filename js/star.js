@@ -125,6 +125,13 @@ define(['three', 'tweenMax'], function(THREE, tm) {
 //					})
 				}
 				
+			}else if(this.name === "xingxing"){
+				TweenMax.from(this.mesh.material, this.randomInRange(1,5),{
+					opacity:0,
+					repeat:-1,
+//					yoyo:true,
+					repeatDelay:this.randomInRange(1,10)
+				})
 			}else{
 				let tl = new TimelineMax({
 					repeat:-1,

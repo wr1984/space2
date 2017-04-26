@@ -1,4 +1,5 @@
 define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], function(THREE, Controls, stats, SpriteControl, tm,Star) {
+	let canvas;
 	let camera;
 	let scene;
 	let renderer;
@@ -32,9 +33,13 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 
 		init() {
 			me = this;
+			canvas = document.getElementById('canvas');
 			this.initStats();
 			width = window.innerWidth;
 			height = window.innerHeight;
+			canvas.style.width = width + 'px';
+			canvas.style.height = height + 'px';
+			
 			scene = new THREE.Scene();
 
 			camera = new THREE.PerspectiveCamera(45, width / height, 1, 1500)
@@ -59,11 +64,11 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			//创建materials
 			//			yuanquanMaterials = this.createMaterials(yuanquanMaps);
 			let diandian2_0ArrMats = this.createMaterials(diandian2Maps,30);
-			let diandian2_1ArrMats = this.createMaterials(diandian2Maps,30);
-			let diandian2_2ArrMats = this.createMaterials(diandian2Maps,30);
-			let diandian2_3ArrMats = this.createMaterials(diandian2Maps,30);
-			let diandian2_4ArrMats = this.createMaterials(diandian2Maps,30);
-			let diandian2_5ArrMats = this.createMaterials(diandian2Maps,30);
+			let diandian2_1ArrMats = this.createMaterials(diandian2Maps,40);
+			let diandian2_2ArrMats = this.createMaterials(diandian2Maps,50);
+			let diandian2_3ArrMats = this.createMaterials(diandian2Maps,60);
+			let diandian2_4ArrMats = this.createMaterials(diandian2Maps,70);
+			let diandian2_5ArrMats = this.createMaterials(diandian2Maps,80);
 			
 			diandianMaterials = this.createMaterials(diandianMaps,100);
 			xingxingMaterials = this.createMaterials(xingxingMaps,200);
@@ -112,12 +117,12 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			
 			diandian2Arr = [diandian2_0Arr,diandian2_1Arr,diandian2_2Arr,diandian2_3Arr,diandian2_4Arr,diandian2_5Arr];
 			diandianArr = this.createSpriteGroup2("diandian",diandianMaterials, size);
-			xingxingArr	= this.createSpriteGroup2("xingxing",xingxingMaterials, size);
+			xingxingArr	= this.createSpriteGroup2("xingxing",xingxingMaterials, size*0.8);
 			xingqiuArr	= this.createSpriteGroup2("xingqiu",xingqiumaterials, size, [0,2, 4], 2);
 			yuanquanArr = this.createMeshGroup2(50);
 			//			console.log(yuanquanArr.length)
 
-			document.body.appendChild(renderer.domElement);
+			canvas.appendChild(renderer.domElement);
 			window.addEventListener('resize', this.resize, false);
 			renderer.domElement.addEventListener('mousemove', this.onMouseMove, false);
 			renderer.render(scene,camera);
@@ -144,6 +149,7 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			this.createSxsys(100);
 //			let sxGrop1 = this.shuangxingSystem();
 //			TweenMax.set(sxGrop0.position,{z:-100})
+			
 
 		}
 		move(arr){
@@ -158,12 +164,12 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 				let tm = new TimelineMax({repeat:-1, yoyo:true, repeatDelay:1});
 				let sxGroup = this.shuangxingSystem();
 				this.sxDistance(sxGroup);
-				tm.to(sxGroup.rotation,this.randomInRange(5,20),{
+				tm.to(sxGroup.rotation,this.randomInRange(100,300),{
 //					x:Math.PI*2*6*temp[Math.round(Math.random())],
-					z:Math.PI*2*temp[Math.round(Math.random())],
+					z:Math.PI*10*temp[Math.round(Math.random())],
 //					y:Math.PI*2*6*temp[Math.round(Math.random())],
-					ease: Power0.easeNone
-//					ease: easeArr[this.randomInRange(0,4)]
+//					ease: Power0.easeNone
+					ease: easeArr[this.randomInRange(0,4)]
 				});
 				
 //				if(Math.random()>0.5){
@@ -421,7 +427,9 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			renderer.setPixelRatio(window.devicePixelRatio);
 			camera.aspect = width / height;
 			camera.updateProjectionMatrix();
-			console.log(width + '_' + height);
+			
+			canvas.style.width = width + 'px';
+			canvas.style.height = height + 'px';
 		}
 
 		xingxingAnimat(t) {
