@@ -108,12 +108,12 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 //			scene.add(xingxingGroup);
 //			scene.add(xingqiuGroup);
 //			scene.add(yuanquanGroup);
-			diandian2_0Arr = this.createSpriteGroup2("diandian2",diandian2_0ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
-			diandian2_1Arr = this.createSpriteGroup2("diandian2",diandian2_1ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
-			diandian2_2Arr = this.createSpriteGroup2("diandian2",diandian2_2ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
-			diandian2_3Arr = this.createSpriteGroup2("diandian2",diandian2_3ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
-			diandian2_4Arr = this.createSpriteGroup2("diandian2",diandian2_4ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
-			diandian2_5Arr = this.createSpriteGroup2("diandian2",diandian2_5ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50));
+			diandian2_0Arr = this.createSpriteGroup2("diandian2",diandian2_0ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
+			diandian2_1Arr = this.createSpriteGroup2("diandian2",diandian2_1ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
+			diandian2_2Arr = this.createSpriteGroup2("diandian2",diandian2_2ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
+			diandian2_3Arr = this.createSpriteGroup2("diandian2",diandian2_3ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
+			diandian2_4Arr = this.createSpriteGroup2("diandian2",diandian2_4ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
+			diandian2_5Arr = this.createSpriteGroup2("diandian2",diandian2_5ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
 			
 			diandian2Arr = [diandian2_0Arr,diandian2_1Arr,diandian2_2Arr,diandian2_3Arr,diandian2_4Arr,diandian2_5Arr];
 			diandianArr = this.createSpriteGroup2("diandian",diandianMaterials, size);
@@ -281,16 +281,22 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			return group;
 		}
 		
-		createSpriteGroup2(name,materialArr, spriteSize, biggerArr, biggerScale,x,y) {
+		createSpriteGroup2(name,materialArr, spriteSize, biggerArr, biggerScale,x,y,dd2Type) {
 			let arr = [];
 			
 			for(let i = 0; i < materialArr.length; i++) {
 				let sprite = new THREE.Sprite(materialArr[i]);
 				
 				if(name === "diandian2"){
-					sprite.position.x = this.randomInRange(x-100,x+100);
-					sprite.position.y = this.randomInRange(y-100,y+100);
-					sprite.position.z = 0;
+					if(dd2Type === 1){
+						sprite.position.x = this.randomInRange(x-100,x+100);
+						sprite.position.y = this.randomInRange(y-100,y+100);
+						sprite.position.z = 0;
+					}else{
+						sprite.position.x = this.randomInRange(x-100,x+100);
+						sprite.position.y = y;
+						sprite.position.z = 0;
+					}
 				}else{
 					sprite.position.x = Math.random() * width - width / 2;
 					sprite.position.y = Math.random() * height - height / 2;
