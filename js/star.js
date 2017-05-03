@@ -12,7 +12,7 @@ define(['three', 'tweenMax'], function(THREE, tm) {
 			this.name = params.name;
 			this.width = window.innerWidth/2;
 			this.height = window.innerHeight/2;
-			this.rSpeed = this.randomInRange(10,25);
+			this.rSpeed = this.randomInRange(20,50);
 			this.mSpeed = this.randomInRange(1,5);
 			
 			this.velocity = new THREE.Vector3();
@@ -56,7 +56,7 @@ define(['three', 'tweenMax'], function(THREE, tm) {
 				})
 
 			} else {
-				TweenMax.to(this.mesh.material,  this.rSpeed*10, {
+				TweenMax.to(this.mesh.material,  this.rSpeed, {
 					rotation:Math.PI*2*10*temp[Math.round(Math.random())],
 					ease:easeArr[this.randomInRange(0,6)],
 					repeat:-1,
@@ -134,7 +134,7 @@ define(['three', 'tweenMax'], function(THREE, tm) {
 				tl.from(this.mesh.material,.5,{
 					opacity:0
 				})
-				.to(this.mesh.position, this.randomInRange(40,100),{
+				.to(this.mesh.position, this.randomInRange(60,120),{
 					bezier:{
 						curviness:2.25,
 						values:[
