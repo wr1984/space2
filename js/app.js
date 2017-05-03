@@ -7,12 +7,12 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 	let width, height;
 	let me;
 	let controls;
-	let size = 20;
-	let diandianMaps, xingxingMaps, xingqiuMaps, yuanquanMaps,diandian2Maps;
-	let diandianMaterials, xingxingMaterials, xingqiumaterials, yuanquanMaterials,diandian2Materials;
+	let size = 35;
+	let aMaps, bMaps, cMaps, dMaps,eMaps;
+	let aMaterials, bMaterials, cMaterials, dMaterials,eMaterials;
 	let diandianGroup, xingxingGroup, xingqiuGroup, yuanquanGroup;
 	let diandianControls, xingxingControls, xingqiuControls, yuanquanControls;
-	let diandianArr, xingxingArr, xingqiuArr, yuanquanArr,diandian2Arr;
+	let aArr, bArr, cArr, dArr,eArr;
 	let diandian2_0Arr,diandian2_1Arr,diandian2_2Arr,diandian2_3Arr,diandian2_4Arr,diandian2_5Arr;
 	let isStart = true;
 	let colorArr = [0xf9dce0, 0xf5957d, 0x17ffa7];
@@ -57,69 +57,39 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 			textureLoader = new THREE.TextureLoader();
 			//加载mapping
 			//			yuanquanMaps = this.createMappings('yuanquan',12);
-			diandian2Maps = this.createMappings('diandian2',7)
-			diandianMaps = this.createMappings('diandian', 40);
-			xingxingMaps = this.createMappings('xingxing', 21);
-			xingqiuMaps = this.createMappings('xingqiu', 17);
+			aMaps = this.createMappings('a',16)
+			bMaps = this.createMappings('b', 16);
+			cMaps = this.createMappings('c', 12);
+			dMaps = this.createMappings('d', 12);
+			eMaps = this.createMappings('e',9);
 			//创建materials
 			//			yuanquanMaterials = this.createMaterials(yuanquanMaps);
-			let diandian2_0ArrMats = this.createMaterials(diandian2Maps,30);
-			let diandian2_1ArrMats = this.createMaterials(diandian2Maps,40);
-			let diandian2_2ArrMats = this.createMaterials(diandian2Maps,50);
-			let diandian2_3ArrMats = this.createMaterials(diandian2Maps,60);
-			let diandian2_4ArrMats = this.createMaterials(diandian2Maps,70);
-			let diandian2_5ArrMats = this.createMaterials(diandian2Maps,80);
+//			let diandian2_0ArrMats = this.createMaterials(diandian2Maps,30);
+//			let diandian2_1ArrMats = this.createMaterials(diandian2Maps,40);
+//			let diandian2_2ArrMats = this.createMaterials(diandian2Maps,50);
+//			let diandian2_3ArrMats = this.createMaterials(diandian2Maps,60);
+//			let diandian2_4ArrMats = this.createMaterials(diandian2Maps,70);
+//			let diandian2_5ArrMats = this.createMaterials(diandian2Maps,80);
 			
-			diandianMaterials = this.createMaterials(diandianMaps,100);
-			xingxingMaterials = this.createMaterials(xingxingMaps,200);
-			xingqiumaterials = this.createMaterials(xingqiuMaps,50);
-			//创建contros
-//			let params = {
-//				width: width / 2,
-//				height: height / 2,
-//				depth: 100,
-//				maxSpeed: 1,
-//				isAvoidWalls: true
-//			}
-//			let xingxingParams = {
-//				width: width / 2,
-//				height: height / 2,
-//				depth: 100,
-//				maxSpeed: 1,
-//				isAvoidWalls: true
-//			}
-//
-//			yuanquanControls = this.createControls(100, params, 'yuanquan')
-//			diandianControls = this.createControls(200, params, 'diandian');
-//			xingxingControls = this.createControls(400, xingxingParams, 'xingxing');
-//			xingqiuControls = this.createControls(200, params, 'xingqiu');
-			//创建groups
-//			yuanquanGroup = this.createMeshGroup(yuanquanControls, 1);
-//			diandianGroup = this.createSpriteGroup(diandianMaterials, diandianControls, size);
-//			xingxingGroup = this.createSpriteGroup(xingxingMaterials, xingxingControls, size);
-//			xingqiuGroup = this.createSpriteGroup(xingqiumaterials, xingqiuControls, size, [3, 6, 7, 8, 9, 14, 17], 2);
+			aMaterials = this.createMaterials(aMaps,200);
+			bMaterials = this.createMaterials(dMaps,300);
+			cMaterials = this.createMaterials(cMaps,300);
+			dMaterials = this.createMaterials(dMaps,100);
+			eMaterials = this.createMaterials2(eMaps,100);
+
+//			diandian2_0Arr = this.createSpriteGroup2("diandian2",diandian2_0ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
+//			diandian2_1Arr = this.createSpriteGroup2("diandian2",diandian2_1ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
+//			diandian2_2Arr = this.createSpriteGroup2("diandian2",diandian2_2ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
+//			diandian2_3Arr = this.createSpriteGroup2("diandian2",diandian2_3ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
+//			diandian2_4Arr = this.createSpriteGroup2("diandian2",diandian2_4ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
+//			diandian2_5Arr = this.createSpriteGroup2("diandian2",diandian2_5ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
 			
-//			yuanquanGroup = this.createMeshGroup(yuanquanControls, 1);
-//			diandianGroup = this.createSpriteGroup2(diandianMaterials, 200, size);
-//			xingxingGroup = this.createSpriteGroup2(xingxingMaterials, 400, size);
-//			xingqiuGroup = this.createSpriteGroup2(xingqiumaterials, 200, size, [3, 6, 7, 8, 9, 14, 17], 2);
-//			//添加到场景
-//			scene.add(diandianGroup);
-//			scene.add(xingxingGroup);
-//			scene.add(xingqiuGroup);
-//			scene.add(yuanquanGroup);
-			diandian2_0Arr = this.createSpriteGroup2("diandian2",diandian2_0ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
-			diandian2_1Arr = this.createSpriteGroup2("diandian2",diandian2_1ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
-			diandian2_2Arr = this.createSpriteGroup2("diandian2",diandian2_2ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
-			diandian2_3Arr = this.createSpriteGroup2("diandian2",diandian2_3ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
-			diandian2_4Arr = this.createSpriteGroup2("diandian2",diandian2_4ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),1);
-			diandian2_5Arr = this.createSpriteGroup2("diandian2",diandian2_5ArrMats,size,null,null,this.randomInRange(-width/2+50,width/2-50),this.randomInRange(-height/2+50,height/2-50),2);
-			
-			diandian2Arr = [diandian2_0Arr,diandian2_1Arr,diandian2_2Arr,diandian2_3Arr,diandian2_4Arr,diandian2_5Arr];
-			diandianArr = this.createSpriteGroup2("diandian",diandianMaterials, size);
-			xingxingArr	= this.createSpriteGroup2("xingxing",xingxingMaterials, size*0.8);
-			xingqiuArr	= this.createSpriteGroup2("xingqiu",xingqiumaterials, size, [0,2, 4], 2);
-			yuanquanArr = this.createMeshGroup2(50);
+			aArr = this.createSpriteGroup2("a",aMaterials, size);
+			bArr = this.createSpriteGroup2("b",bMaterials, size);
+			cArr = this.createSpriteGroup2("c",cMaterials, size);
+			dArr = this.createSpriteGroup2("d",dMaterials, size);
+//			eArr = this.createSpriteGroup2("e",eMaterials, size);
+			eArr = this.createMeshGroup2(eMaterials, size);
 			//			console.log(yuanquanArr.length)
 
 			canvas.appendChild(renderer.domElement);
@@ -137,16 +107,17 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 //					clientY: me.randomInRange(0, height)
 //				}
 //			}, this.randomInRange(10000, 20000));
-			this.diandian2Move();
-			this.move(xingxingArr);
-			this.move(xingqiuArr);
-			this.move(diandianArr);
-			this.move(yuanquanArr);
+//			this.diandian2Move();
+			this.move(aArr);
+			this.move(bArr);
+			this.move(cArr);
+			this.move(dArr);
+			this.move(eArr);
 			
 //			let sxGrop0 = this.shuangxingSystem();
 //			this.sxDistance(sxGrop0);
 
-			this.createSxsys(100);
+//			this.createSxsys(100);
 //			let sxGrop1 = this.shuangxingSystem();
 //			TweenMax.set(sxGrop0.position,{z:-100})
 			
@@ -222,21 +193,16 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 				})
 			}
 		}
-		createMeshGroup2(count) {
+		createMeshGroup2(materials,size) {
 			let arr = [];
-			for(let i = 0; i < count; i++) {
-				let size = this.randomInRange(5, 12)
-				let mesh = new THREE.Mesh(new THREE.CylinderGeometry(size, size, 2, 32), new THREE.MeshBasicMaterial({
-					opacity: 1,
-					transparent: true,
-					color: colorArr[this.randomInRange(0, 2)]
-				}));
+			for(let i = 0, len = materials.length; i < len; i++) {
+				let mesh = new THREE.Mesh(new THREE.CircleGeometry(10,32), materials[i]);
 				mesh.position.x = Math.random() * width - width / 2;
 				mesh.position.y = Math.random() * height - height / 2;
 				mesh.position.z = 0;
 				let star = new Star({
 					mesh:mesh,
-					name:"yuanquan"
+					name:"e"
 				});
 				arr.push(star);
 				scene.add(mesh);
@@ -373,7 +339,6 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 		 */
 		createMaterials(mapArr,count) {
 			let arr = [];
-			
 			for(let i = 0; i < count; i++) {
 				let pos = Math.floor(Math.random() * mapArr.length)
 				let spriteMaterial = new THREE.SpriteMaterial({
@@ -383,9 +348,25 @@ define(['three', 'controls', 'stats', 'spriteControl', 'tweenMax','star'], funct
 				});
 				arr.push(spriteMaterial);
 			};
-
 			return arr;
 		}
+		
+		createMaterials2(mapArr,count) {
+			let arr = [];
+			for(let i = 0; i < count; i++) {
+				let pos = Math.floor(Math.random() * mapArr.length)
+				let spriteMaterial = new THREE.MeshBasicMaterial({
+					opacity: 1.0,
+					transparent: true,
+					side:THREE.DoubleSide,
+					map: mapArr[pos]
+				});
+				arr.push(spriteMaterial);
+			};
+			return arr;
+		}
+		
+		
 
 		randomInRange(min, max) {
 			return Math.floor(Math.random() * (max - min + 1)) + min;

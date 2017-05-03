@@ -12,7 +12,7 @@ define(['three', 'tweenMax'], function(THREE, tm) {
 			this.name = params.name;
 			this.width = window.innerWidth/2;
 			this.height = window.innerHeight/2;
-			this.rSpeed = this.randomInRange(1,5);
+			this.rSpeed = this.randomInRange(10,25);
 			this.mSpeed = this.randomInRange(1,5);
 			
 			this.velocity = new THREE.Vector3();
@@ -36,22 +36,21 @@ define(['three', 'tweenMax'], function(THREE, tm) {
 		
 		rotate() {
 			let temp = [-1,1];
-			if((this.name.indexOf("diandian2"))===0){return};
-			if(this.name === "yuanquan") {
+			if(this.name === "e") {
 				let tlRotate = new TimelineMax({
 					repeat:-1,
 //					repeatDelay:this.randomInRange(1,10),
 					yoyo:true
 				});
-				tlRotate.to(this.mesh.rotation, this.rSpeed*5, {
+				tlRotate.to(this.mesh.rotation, this.rSpeed, {
 					x:Math.PI*2*12,
 					ease:easeArr[this.randomInRange(0,6)]
 				})
-//				.to(this.mesh.rotation,this.rSpeed*5,{
-//					y:Math.PI*2*12,
-//					ease:easeArr[this.randomInRange(0,6)]
-//				})
-				.to(this.mesh.rotation,this.rSpeed*5,{
+				.to(this.mesh.rotation,this.rSpeed,{
+					y:Math.PI*2*12,
+					ease:easeArr[this.randomInRange(0,6)]
+				})
+				.to(this.mesh.rotation,this.rSpeed,{
 					z:Math.PI*2*12,
 					ease:easeArr[this.randomInRange(0,6)]
 				})
@@ -125,49 +124,38 @@ define(['three', 'tweenMax'], function(THREE, tm) {
 //					})
 				}
 				
-			}else if(this.name === "xingxing"){
-				TweenMax.from(this.mesh.material, this.randomInRange(1,5),{
-					opacity:0,
-					repeat:-1,
-//					yoyo:true,
-					repeatDelay:this.randomInRange(1,10)
-				})
 			}else{
 				let tl = new TimelineMax({
 					repeat:-1,
 					yoyo:true,
 					delay:this.randomInRange(1,10),
-					repeatDelay:this.randomInRange(1,10)
+					repeatDelay:this.randomInRange(5,20)
 				});
 				tl.from(this.mesh.material,.5,{
 					opacity:0
 				})
-				.to(this.mesh.position, this.randomInRange(5,20),{
-					x:this.randomInRange(-this.width,this.width),
-					y:this.randomInRange(-this.height,this.height),
-					ease:easeArr[this.randomInRange(0,6)],
+				.to(this.mesh.position, this.randomInRange(40,100),{
+					bezier:{
+						curviness:2.25,
+						values:[
+							{x:this.randomInRange(-this.width,this.width),y:this.randomInRange(-this.height,this.height)},
+							{x:this.randomInRange(-this.width,this.width),y:this.randomInRange(-this.height,this.height)},
+							{x:this.randomInRange(-this.width,this.width),y:this.randomInRange(-this.height,this.height)},
+//							{x:this.randomInRange(-this.width,this.width),y:this.randomInRange(-this.height,this.height)},
+//							{x:this.randomInRange(-this.width,this.width),y:this.randomInRange(-this.height,this.height)},
+//							{x:this.randomInRange(-this.width,this.width),y:this.randomInRange(-this.height,this.height)},
+//							{x:this.randomInRange(-this.width,this.width),y:this.randomInRange(-this.height,this.height)}
+						]
+					},
+					ease:easeArr[this.randomInRange(0,6)]
 				})
-//				.to(this.mesh.position,this.randomInRange(20,50),{
-//					x:this.randomInRange(-this.width,this.width),
-//					y:this.randomInRange(-this.height,this.height),
-//					ease:easeArr[this.randomInRange(0,7)]
-//				})
-//				.to(this.mesh.position,this.randomInRange(2,20),{
-//					x:this.randomInRange(-this.width,this.width),
-//					y:this.randomInRange(-this.height,this.height),
-//					ease:easeArr[this.randomInRange(0,7)]
-//				})
-				
-//				if(Math.random() > 0.5){
-//					tl.add(TweenMax.to(this.mesh.position,1,{
-//						z:-1500,
-//						ease:Bounce.easeIn
-//					}));
-//				}else{
-//					tl.add(TweenMax.to(this.mesh.material,1,{
-//						opacity:0
-//					}));
-//				}
+
+				if(this.name === "a" || this.name === "c"){
+					tl.add(TweenMax.to(this.mesh.position, 5 ,{
+						y: -this.height,
+						ease:Bounce.easeOut
+					}))
+				}
 				
 				
 			}
